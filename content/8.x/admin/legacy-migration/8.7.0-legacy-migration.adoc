@@ -233,3 +233,24 @@ The process works the other way around, the SuiteCRM 7 instance will be moved/co
 The migration package is similar to a SuiteCRM 8 installation package without the `public/legacy` folder. After extracting the migration package, your SuiteCRM 7 folder should be copied to inside the `public` folder that exists on the SuiteCRM 8 root folder, and then renamed to `legacy`.
 Later on in the process, when running the upgrade commands, your SuiteCRM 7 code that is now on `public/legacy` will be updated with all the "legacy" changes that SuiteCRM 8 includes.
 
+=== 4.5. Incorrect or missing .env.local database configuration
+
+When using SuiteCRM 8.x, the new frontend (based on Symfony) does not use the config.php file to retrieve database connection details. Instead, it reads the database configuration from the DATABASE_URL variable defined in the .env.local or .env file located at the root of the SuiteCRM 8 instance.
+
+If the /legacy route works as expected but the main frontend does not load and returns a database connection error, it is likely due to incorrect or missing values in the .env.local file.
+
+==== Solution
+
+. Navigate to the root directory of your SuiteCRM 8 instance.
+
+. Locate and open or create the .env.local file.
+
+. Add or update the DATABASE_URL variable with the correct database connection string, using the appropriate database username, password, host, port, and database name.
+
+. Save the file.
+
+. Clear and warm up the Symfony cache by running the cache clear and cache warmup commands (./bin/console cache:clear or ./bin/console cache:warmup).
+
+. Re-set the appropriate file and folder permissions to ensure the web server user has the required access.
+
+. Reload the application in the browser and confirm that the issue is resolved.
